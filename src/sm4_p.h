@@ -39,38 +39,6 @@ static const uint8_t SBox[16][16] =
 
 
 
-/*
- *  uint32_su type:
- *  undigned int 32 bits _ splited union
- *
- */
-typedef union {
-    struct {
-        uint8_t h0, h1, h2, h3;
-    };
-    uint32_t _;
-} uint32_su;
-
-
-/*
- *  uint32_st type:
- *  unsigned int 32 bits _ splited struct
- *
- */
-typedef struct {
-    uint32_su h0, h1, h2, h3;
-} uint128_st;
-
-
-/*
- *  sm4_blk_t type:
- *  SM4 block type
- *
- */
-typedef uint128_st sm4_blk_t;
-
-
-
 #define BYTE_MSK 0xffU
 //  Get high/low 4 bits in a byte
 #define GET_HIGH_4BITS(x) (((x) & BYTE_MSK) >> 4)
