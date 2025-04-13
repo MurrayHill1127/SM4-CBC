@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "sm4_p.h"
 #include "sm4.h"
 
@@ -11,7 +10,7 @@ void sm4_keygen(sm4_key_t mk, rk_t *rkv)
         .h3._   =   mk.h3._ ^ FK[3]
     };
 
-    for(int i = 0; i < 32; i++) {
+    for(int i = 0; i < 32; i++)
         rkv->rk[i]  =   rkv->rk[i-4]
                     ^   GET_T_PRIME_RES(
                             rkv->rk[i-3]
@@ -19,7 +18,7 @@ void sm4_keygen(sm4_key_t mk, rk_t *rkv)
                         ^   rkv->rk[i-1]
                         ^   CK[i] 
                                         ); 
-        printf("rk[%2d] == %#8x\n", i, rkv->rk[i]);}
+
     return ;                        
 }
 
@@ -50,7 +49,6 @@ sm4_blk_t sm4_algo(sm4_blk_t msg, rk_t *rkv, int flag)
     b2.h1._ = b1.h2._ ;
     b2.h2._ = b1.h1._ ;
     b2.h3._ = b1.h0._ ;
-
    
     return b2;
 }

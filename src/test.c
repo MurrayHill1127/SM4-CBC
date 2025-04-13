@@ -18,17 +18,18 @@ int main(void)
                                 &msg.h3._); 
     rk_t rk; 
     sm4_keygen(mk, &rk); 
+
+    msg = sm4_algo(msg, &rk, -1);
+/*
     clock_t start = clock();
     for(size_t i = 1; i <= 1000000; i++ )
-        msg = sm4_algo(msg, &rk, 1);
     clock_t end = clock();
-
+*/
     b2 = msg;
     printf("\n\n%08x%08x%08x%08x\n",    b2.h0._, 
                                         b2.h1._,
                                         b2.h2._,
                                         b2.h3._);
-    printf("%fs", (double)(end - start) / CLOCKS_PER_SEC); 
         return 0;
 }
                      
