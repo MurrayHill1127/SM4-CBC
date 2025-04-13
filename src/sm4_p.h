@@ -40,31 +40,31 @@ static const uint8_t SBox[16][16] =
 
 
 /*
- *	uint32_su type:
- *	undigned int 32 bits _ splited union
+ *  uint32_su type:
+ *  undigned int 32 bits _ splited union
  *
  */
 typedef union {
-	struct {
-		uint8_t h0, h1, h2, h3;
-	};
-	uint32_t _;
+    struct {
+        uint8_t h0, h1, h2, h3;
+    };
+    uint32_t _;
 } uint32_su;
 
 
 /*
- *	uint32_st type:
- *	unsigned int 32 bits _ splited struct
+ *  uint32_st type:
+ *  unsigned int 32 bits _ splited struct
  *
  */
 typedef struct {
-	uint32_su h0, h1, h2, h3;
+    uint32_su h0, h1, h2, h3;
 } uint128_st;
 
 
 /*
- *	sm4_blk_t type:
- *	SM4 block type
+ *  sm4_blk_t type:
+ *  SM4 block type
  *
  */
 typedef uint128_st sm4_blk_t;
@@ -72,106 +72,106 @@ typedef uint128_st sm4_blk_t;
 
 
 #define BYTE_MSK 0xffU
-//	Get high/low 4 bits in a byte
+//  Get high/low 4 bits in a byte
 #define GET_HIGH_4BITS(x) (((x) & BYTE_MSK) >> 4)
 #define GET_LOW_4BITS(x) ((x) & 0x0fU)
 
 
 /*
- *	GET_SBOX_OUT(x) macro:
- *	GET output from SBox for a single 8-bit input
- *	Input:	uint8_t x
- *  Output:	uint8_t 
+ *  GET_SBOX_OUT(x) macro:
+ *  GET output from SBox for a single 8-bit input
+ *  Input:  uint8_t x
+ *  Output: uint8_t 
  *
  */
-#define GET_SBOX_OUT(x) (		\
-	SBox[GET_HIGH_4BITS((x))]	\
-		[GET_LOW_4BITS((x))]		)
+#define GET_SBOX_OUT(x) (       \
+    SBox[GET_HIGH_4BITS((x))]   \
+        [GET_LOW_4BITS((x))]        )
 
 
 /*
- *	GET_S_RES macro:
- *	Get res from S Transformation	
- *	Input:	uint32_su x
- *	Output:	uint32_su
+ *  GET_S_RES macro:
+ *  Get res from S Transformation   
+ *  Input:  uint32_su x
+ *  Output: uint32_su
  *
  */
-#define GET_S_RES(x) {			\
-	.h0 = GET_SBOX_OUT((x).h0)	\
-	.h1 = GET_SBOX_OUT((x).h1)	\
-	.h2 = GET_SBOX_OUT((x).h2)	\
-	.h3 = GET_SBOX_OUT((x).h3)		}
+#define GET_S_RES(x) {          \
+    .h0 = GET_SBOX_OUT((x).h0)  \
+    .h1 = GET_SBOX_OUT((x).h1)  \
+    .h2 = GET_SBOX_OUT((x).h2)  \
+    .h3 = GET_SBOX_OUT((x).h3)      }
 
 
 /*
- *	ROL_32(x, n) macro:
- *	Rotate Left Shift for 32-bits
- *	Input:	uint32_t x,
- *			uint32_t n, 0 <= n < 32
- *	Output:	uint32_t
+ *  ROL_32(x, n) macro:
+ *  Rotate Left Shift for 32-bits
+ *  Input:  uint32_t x,
+ *          uint32_t n, 0 <= n < 32
+ *  Output: uint32_t
  *
  */
-#define ROL_32(x, n) (			\
-		((x) << (n % 32))		\
-	|	((x) >> (32 - (n % 32)))	)
+#define ROL_32(x, n) (          \
+        ((x) << (n % 32))       \
+    |   ((x) >> (32 - (n % 32)))    )
 
 
 /*
- *	GET_L_RES(x) macro:
- *	GET res from L Transformation	
- *	Input:	uint32_su x
- *	Output:	uint32_su
+ *  GET_L_RES(x) macro:
+ *  GET res from L Transformation   
+ *  Input:  uint32_su x
+ *  Output: uint32_su
  *
  */
-#define GET_L_RES(x) {					\
-	._	=	(\
-				((x)._)					\
-			^	(ROL_32((x)._ , 2 ))	\
-			^	(ROL_32((x)._ , 10))	\
-			^	(ROL_32((x)._ , 18))	\
-			^	(ROL_32((x)._ , 24))	)}
+#define GET_L_RES(x) {                  \
+    ._  =   (\
+                ((x)._)                 \
+            ^   (ROL_32((x)._ , 2 ))    \
+            ^   (ROL_32((x)._ , 10))    \
+            ^   (ROL_32((x)._ , 18))    \
+            ^   (ROL_32((x)._ , 24))    )}
 
 
 /*
- *	GET_L_PRIME_RES(x) macro:
- *	GET res from L' Transformation	
- *	Input:	uint32_su x
- *	Output:	uint32_su
+ *  GET_L_PRIME_RES(x) macro:
+ *  GET res from L' Transformation  
+ *  Input:  uint32_su x
+ *  Output: uint32_su
  *
  */
-#define GET_L_PRIME_RES(x) {			\
-	._	=	(							\
-				((x)._)					\
-			^	(ROL_32((x)._ , 13))	\
-			^	(ROL_32((x)._ , 23))		)}
+#define GET_L_PRIME_RES(x) {            \
+    ._  =   (                           \
+                ((x)._)                 \
+            ^   (ROL_32((x)._ , 13))    \
+            ^   (ROL_32((x)._ , 23))        )}
 
 
 /*
- *	GET_T_RES(x) macro:
- *	Get res from T Transformation
- *	"T Trans" =  "L Trans" o "S Trans"
- *	Input:	uint32_su x
- *	Output:	uint32_su
+ *  GET_T_RES(x) macro:
+ *  Get res from T Transformation
+ *  "T Trans" =  "L Trans" o "S Trans"
+ *  Input:  uint32_su x
+ *  Output: uint32_su
  *
  */
-#define GET_T_RES(x) (			\
-	GET_L_RES	(				\
-				GET_S_RES((x))	\
-				)
+#define GET_T_RES(x) (          \
+    GET_L_RES   (               \
+                GET_S_RES((x))  \
+                )
 
 
 /*
- *	GET_T_PRIME_RES(x) macro:
- *	Get res from T' Transformation
- *	"T' Trans" =  "L' Trans" o "S Trans"
- *	Input:	uint32_su x
- *	Output:	uint32_su
+ *  GET_T_PRIME_RES(x) macro:
+ *  Get res from T' Transformation
+ *  "T' Trans" =  "L' Trans" o "S Trans"
+ *  Input:  uint32_su x
+ *  Output: uint32_su
  *
  */
-#define GET_T_PRIME_RES(x) (			\
-	GET_L_PRIME_RES	(					\
-					GET_S_RES((x))		\
-					)
+#define GET_T_PRIME_RES(x) (            \
+    GET_L_PRIME_RES (                   \
+                    GET_S_RES((x))      \
+                    )
 
 
 #endif
