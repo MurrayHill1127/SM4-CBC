@@ -57,6 +57,13 @@ static const uint8_t SBox[16][16] =
         [GET_LOW_4BITS((x))]        )
 
 
+/*  
+ *  T2SU macro:
+ *  uint32_t to uint32_su
+ *
+ */
+#define T2SU(x) ((uint32_su) {._ = (x)})
+
 /*
  *  GET_S_RES macro:
  *  Get res from S Transformation   
@@ -65,10 +72,10 @@ static const uint8_t SBox[16][16] =
  *
  */
 #define GET_S_RES(x) (uint32_su) {  \
-    .h0 = GET_SBOX_OUT((x).h0)      \
-    .h1 = GET_SBOX_OUT((x).h1)      \
-    .h2 = GET_SBOX_OUT((x).h2)      \
-    .h3 = GET_SBOX_OUT((x).h3)      }
+    .h0 = GET_SBOX_OUT((x).h0),     \
+    .h1 = GET_SBOX_OUT((x).h1),     \
+    .h2 = GET_SBOX_OUT((x).h2),     \
+    .h3 = GET_SBOX_OUT((x).h3)          }
 
 
 /*
@@ -118,26 +125,26 @@ static const uint8_t SBox[16][16] =
  *  GET_T_RES(x) macro:
  *  Get res from T Transformation
  *  "T Trans" =  "L Trans" o "S Trans"
- *  Input:  uint32_su x
+ *  Input:  uint32_t x
  *  Output: uint32_t
  *
  */
 #define GET_T_RES(x) (          \
     (   GET_L_RES(              \
-        GET_S_RES( (x) )  ))._  )
+        GET_S_RES( (T2SU(x)) )  ))._  )
 
 
 /*
  *  GET_T_PRIME_RES(x) macro:
  *  Get res from T' Transformation
  *  "T' Trans" =  "L' Trans" o "S Trans"
- *  Input:  uint32_su x
+ *  Input:  uint32_t x
  *  Output: uint32_t
  *
  */
 #define GET_T_PRIME_RES(x) (            \
     (   GET_L_PRIME_RES(                \
-              GET_S_RES( (x) )  ))._    )
+              GET_S_RES( (T2SU(x)) )  ))._    )
 
 
 #endif

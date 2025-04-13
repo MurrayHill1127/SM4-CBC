@@ -43,17 +43,17 @@ typedef uint128_st sm4_key_t;
  *  rk_t type: 
  *  round key type
  *
- *  mk, "main key"
+ *  mfk, "main key ^ FK"
  *  rk, "round key"
  *  ak, "all key"
  *
  */
 typedef union {
     struct {
-        sm4_key_t mk;
-        uint32_su rk[32];
+        sm4_key_t mfk;
+        uint32_t rk[32];
     };
-    uint32_su ak[36]; 
+    uint32_t ak[36]; 
 } rk_t;
 
 
@@ -79,5 +79,6 @@ void sm4_keygen(sm4_key_t mk, rk_t *rkv);
  *  Return: sm4_blk_t      , "en/decrypted msg"
  *
  */
-sm4_blk_t sm4_algo(sm4_blk_t msg, rk_t *rkv, int iter);
-#undef
+sm4_blk_t sm4_algo(sm4_blk_t msg, rk_t *rkv, int flag);
+
+#endif
