@@ -43,13 +43,17 @@ typedef uint128_st sm4_key_t;
  *  rk_t type: 
  *  round key type
  *
+ *  mk, "main key"
+ *  rk, "round key"
+ *  ak, "all key"
+ *
  */
 typedef union {
     struct {
         sm4_key_t mk;
-        uint32_su inner_k[32];
+        uint32_su rk[32];
     };
-    uint32_su k[36]; 
+    uint32_su ak[36]; 
 } rk_t;
 
 
