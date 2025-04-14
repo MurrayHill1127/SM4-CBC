@@ -41,7 +41,7 @@ void cbc_entry(uint8_t *buf_in, uint8_t *buf_out, size_t *len, rk_t *rkv, int mo
 
         sm4_blk_t *bef, *now ;
 
-        for(size_t i = 0; i < rd; i++) {
+        for(int i = 0; i < rd; i++) {
             bef = (sm4_blk_t *)(buf_in +(i-1) * BLOCK_SZ);
             now = (sm4_blk_t *)(buf_in + i    * BLOCK_SZ);
             exor_sm4_blk(bef, now);
