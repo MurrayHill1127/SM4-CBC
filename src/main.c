@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
         fprintf(stderr, "[ERROR] fread num error\n");
         exit(1);
     } 
-    cbc_entry(buf_in + BLOCK_SZ, buf_out + 1, &len, &rk, mode);
+    cbc_entry(buf_in + BLOCK_SZ, buf_out + BLOCK_SZ, &len, &rk, mode);
     if(fwrite(buf_out + BLOCK_SZ, 1, len, fp_out) != len) {
         fprintf(stderr, "[ERROR] fwrite num error\n");
         exit(1);
