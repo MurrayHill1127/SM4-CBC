@@ -27,6 +27,14 @@ typedef struct {
 } uint128_st;
 
 
+typedef union {
+    struct {
+        uint32_su h0, h1, h2, h3;
+    };
+    uint8_t bs[16];
+} uint128_su;
+
+
 /*
  *  sm4_blk_t type:
  *  SM4 block type

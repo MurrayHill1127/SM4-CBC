@@ -19,7 +19,7 @@ int main(void)
     rk_t rk; 
     sm4_keygen(mk, &rk); 
 
-    msg = sm4_algo(msg, &rk, -1);
+    msg = sm4_algo(msg, &rk, 1);
 /*
     clock_t start = clock();
     for(size_t i = 1; i <= 1000000; i++ )
