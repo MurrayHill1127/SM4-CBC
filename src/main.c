@@ -39,6 +39,9 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
+    setvbuf(fp_in, NULL, _IOFBF, BUFSIZ);
+    setvbuf(fp_out, NULL, _IOFBF, BUFSIZ);
+
     int mode = (!strcmp(argv[1], "encrypt")) ? 1 : -1;
     size_t len = get_file_sz(fp_in); 
 
@@ -69,6 +72,10 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
+    fclose(fp_in);
+    fclose(fp_out);
+
+    return 0;
 }
 
 sm4_blk_t ivkey_transfer(const char *iv)
