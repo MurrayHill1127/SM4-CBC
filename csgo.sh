@@ -2,8 +2,9 @@
 #   csgo:
 #   CBC-SM4, go!
 
-IV="ffffffffffffffffffffffffffffffff"
-KEY="ffffffffffffffffffffffffffffffff"
+IV="0123456789abcdeffedcba9876543210"
+KEY="0123456789abcdeffedcba9876543210"
+
 
 BINDIR="./bin"
 
